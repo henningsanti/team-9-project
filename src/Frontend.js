@@ -141,7 +141,6 @@ class Signup extends React.Component {
 
 const states = [
   { value: 'AK', label: 'Alaska'},
-  { value: 'TX', label: 'Texas'},
   { value: 'AL', label: 'Alabama'},
   { value: 'AR', label: 'Arkansas'},
   { value: 'AZ', label: 'Arizona'},

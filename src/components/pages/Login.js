@@ -2,10 +2,10 @@ import React from 'react';
 import '../../App.css';
 import UserForm from '../UserForm';
 
-function SignUp({setToken}){
+function Login({setToken}){
     return (
-        <UserForm setToken={setToken} signUp={true}/>
+        <UserForm setToken={setToken} signUp={false}/>
     )
 }
 
-export default SignUp;
+export default Login;

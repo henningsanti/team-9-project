@@ -1,6 +1,8 @@
-import React from 'react';
 import '../../App.css';
+import ClientInfoForm from '../ClientInfoForm';
 
 export default function ClientRegistration(){
-    return <h1 className='clientregistration'>Client Registration</h1>
+    return (
+        <ClientInfoForm />
+    )
 }

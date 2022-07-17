@@ -29,7 +29,7 @@ const UserForm = ({signUp, setToken}) => {
     const [user, setUser] = useState('');
     const [pwd, setPwd] = useState('');
     const [errMsg, setErrMsg] = useState('');
-    const [success, setSuccess] = useState();
+    const [success, setSuccess] = useState(false);
 
     useEffect(() => {
         userRef.current.focus();
@@ -60,8 +60,13 @@ const UserForm = ({signUp, setToken}) => {
             //setUser('');
             //setPwd('');
             setSuccess(true);
+            //Something weird going on here with setting success,
+            //Sometimes login doesn't re-render correctly on success
+            console.log(success);
 
         } catch (err) {
+            //setSuccess(false);
+            //setToken(false);
             if (!err?.token) {
                 console.log(err);
                 setErrMsg('No Server Response');
@@ -73,14 +78,14 @@ const UserForm = ({signUp, setToken}) => {
                 setErrMsg('Login Failed');
                 console.log(err.status)
             }
-            errRef.current.focus();
+            //errRef.current.focus();
         }
     }
 
     return (
         <>
             {success ? (
-                <Redirect push to="/home"/>
+                <Redirect push to="/clientregistration"/>
             ) : (
                 <div className="container-fluid h-75 d-flex flex-column align-items-center justify-content-center">
                     <h1>{signUp ? "Sign Up" : "Login"}</h1>

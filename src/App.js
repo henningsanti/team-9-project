@@ -10,11 +10,11 @@ import Login from './components/pages/Login';
 import SignUp from './components/pages/SignUp';
 
 function setToken(userToken) {
-  localStorage.setItem('token', JSON.stringify(userToken));
+  sessionStorage.setItem('token', JSON.stringify(userToken));
 }
 
 function getToken() {
-  const tokenString = localStorage.getItem('token');
+  const tokenString = sessionStorage.getItem('token');
   const userToken = JSON.parse(tokenString);
   return userToken?.token;
 }

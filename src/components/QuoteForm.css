@@ -126,6 +126,20 @@
     background-color: transparent;
     outline: none;
     border: 1px solid var(--primary);
+    border-color: #fff;
+    color: #fff;
+    font-size: 1rem;
+  }
+
+  .form-input-btn {
+    width: 80%;
+    height: 50px;
+    margin-top: 10px;
+    border-radius: 2px;
+    background-color: transparent;
+    outline: none;
+    border: 1px solid var(--primary);
+    border-color: #fff;
     color: #fff;
     font-size: 1rem;
   }

@@ -1,0 +1,33 @@
+{
+  "posts": [
+    {
+      "id": 1,
+      "title": "json-server",
+      "author": "typicode"
+    },
+    {
+      "user": "kkjl",
+      "pwd": "hello",
+      "id": 2
+    },
+    {
+      "user": "sdf",
+      "pwd": "sdf",
+      "id": 3
+    }
+  ],
+  "comments": [
+    {
+      "id": 1,
+      "body": "some comment",
+      "postId": 1
+    }
+  ],
+  "profile": {
+    "name": "typicode"
+  },
+  "auth": {
+    "user": "signup",
+    "pwd": "signup"
+  }
+}

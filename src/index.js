@@ -5,11 +5,8 @@ import {AuthProvider} from './context/AuthProvider';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 ReactDOM.render(
-    <React.StrictMode>
-        <AuthProvider>
-            <App />
-        </AuthProvider>
-    </React.StrictMode>, 
+    
+            <App />, 
     document.getElementById('root')
     
 );

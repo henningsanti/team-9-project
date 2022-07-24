@@ -1,6 +1,24 @@
-import React from 'react';
+import React, {useState} from 'react';
 import '../../App.css';
+import Section2 from '../Section2';
+import FormSuccess from '../FormSuccess';
+import '../QuoteForm.css';
 
-export default function QuoteForm(){
-    return <h1 className='quoteform'>Quote Form</h1>
-}
+function QuoteForm(){
+  const [isSubmitted, setIsSubmitted] = useState(false);
+
+  function submitForm(){
+    setIsSubmitted(true);
+  }
+    return (
+        <>
+           <div>
+            {!isSubmitted ? <Section2 submitForm=
+              {submitForm}/> : <FormSuccess/>}
+        </div>
+        </>
+      );
+    }
+
+export default QuoteForm;
+    

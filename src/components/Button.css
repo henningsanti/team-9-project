@@ -16,6 +16,17 @@
     border: 1px solid var(--primary);
   }
   
+  .s-btns .btn {
+    width: 100%;
+    margin: 6px;
+    color: #fff;
+    font-size: 1rem;
+    border: 1px solid var(--primary);
+    border-color: #fff;
+    margin-top: 10px;
+    border-radius: 2px;
+  }
+
   .btn--outline {
     background-color: transparent;
     color: #fff;

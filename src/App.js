@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Navbar from './components/Navbar';
 import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-dom';
 import './App.css';
@@ -8,21 +8,12 @@ import QuoteHistory from './components/pages/QuoteHistory';
 import ClientRegistration from './components/pages/ClientRegistration';
 import Login from './components/pages/Login';
 import SignUp from './components/pages/SignUp';
-
-function setToken(userToken) {
-  sessionStorage.setItem('token', JSON.stringify(userToken));
-}
-
-function getToken() {
-  const tokenString = sessionStorage.getItem('token');
-  const userToken = JSON.parse(tokenString);
-  return userToken?.token;
-}
+import useToken from './components/useToken';
 
 function App() 
 {
 
-  const token = getToken();
+  const {token, setToken} = useToken();
 
   return (
     <>

@@ -29,15 +29,19 @@ const UserForm = ({signUp, setToken}) => {
     const [user, setUser] = useState('');
     const [pwd, setPwd] = useState('');
     const [errMsg, setErrMsg] = useState('');
-    const [success, setSuccess] = useState(false);
+    const [success, setSuccess] = useState();
 
-    useEffect(() => {
+    /*useEffect(() => {
         userRef.current.focus();
-    }, [])
+    }, [])*/
 
     useEffect(() => {
         setErrMsg('');
     }, [user, pwd])
+
+    useEffect(() => {
+        console.log("Success: " + success);
+    }, [success])
 
     // TODO: Connect to DB, implement signup vs login logic
     const handleSubmit = async (e) => {
@@ -49,6 +53,7 @@ const UserForm = ({signUp, setToken}) => {
                 password: pwd
             });
 
+            console.log(token);
             setToken(token);
 
             //console.log(JSON.stringify(response?.data));
@@ -60,9 +65,6 @@ const UserForm = ({signUp, setToken}) => {
             //setUser('');
             //setPwd('');
             setSuccess(true);
-            //Something weird going on here with setting success,
-            //Sometimes login doesn't re-render correctly on success
-            console.log(success);
 
         } catch (err) {
             //setSuccess(false);

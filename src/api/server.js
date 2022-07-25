@@ -2,12 +2,27 @@ const express = require('express');
 //Not sure the function of cors, look into this
 const cors = require('cors');
 const bodyParser = require('body-parser');
-
 const app = express();
 
+const db = require("./db/UserInformation");
+
+//Middleware
+//let bodyparse parse any requests that are of 
+//the type url encoded
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(cors());
 app.use(express.json())
+app.use(cors());
+
+app.post("/UserInformation", async (req, res) =>{
+    const results = await db.createUser(req.body);
+    res.status(201).json({id: results[0]});
+});
+
+app.get("/UserInformation", async (req,res) => {
+    const allInfo = await db.getAllUsers();
+    res.status(200).json({allInfo});
+});
+ 
 
 app.post('/login', (req, res) => {
 

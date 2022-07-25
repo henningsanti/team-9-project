@@ -1,0 +1,14 @@
+const knex = require("./knex");
+
+function createUser(user){
+    return knex("User_Login").insert(user);
+};
+
+function getAllUsers(){
+    return knex("User_Login").select("*");
+};
+
+module.exports = {
+    createUser,
+    getAllUsers
+}

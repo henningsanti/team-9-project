@@ -1,6 +1,7 @@
-import {useState, useRef} from 'react';
+import {useState, useRef, useEffect} from 'react';
 import '../App.css';
 import Select from 'react-select'
+import axios from '../api/axios';
 
 export default function ClientInfoForm(){
 
@@ -11,11 +12,54 @@ export default function ClientInfoForm(){
     const [state, setState] = useState();
     const [zip, setZip] = useState();
 
+    const [firstLogin, setFirstLogin] = useState(true);
+
     const [readOnly, setReadOnly] = useState(true);
 
     const fullNameRef = useRef();
 
-    const handleSubmit = () => {setReadOnly(true)};
+    useEffect(() => {
+        async function fetchData() {
+            const response = await axios.get("/clientregistration", {
+                headers: { 'Content-Type': 'application/json' },
+                username: JSON.parse(sessionStorage.getItem('token')).token
+            });
+
+            console.log(response);
+
+            if (response) {
+                console.log("Got A Response!")
+                setFullName(response.data.full_name);
+                setAddress1(response.data.address1);
+                setAddress2(response.data.address2);
+                setCity(response.data.city);
+                setState(response.data.state);
+                setZip(response.data.zip);
+                setFirstLogin(false);
+            }
+        }
+        fetchData();
+    }, [])
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+
+        setReadOnly(true);
+
+        const response = await axios.post("/clientregistration" + 
+            (firstLogin ? "-submit" : "-update" ), {
+            headers: { 'Content-Type': 'application/json' },
+            username: JSON.parse(sessionStorage.getItem('token')).token,
+            fullName: fullName,
+            address1: address1,
+            address2: address2,
+            city: city,
+            state: state,
+            zip: zip,
+            firstLogin: firstLogin
+        }
+    )};
+
     const resetValues = () => {};
 
     const states = [
@@ -196,7 +240,7 @@ export default function ClientInfoForm(){
                         <button 
                             type="submit" 
                             className="col-8 btn btn-success my-2">
-                            Update
+                            {firstLogin ? "Submit" : "Update"}
                         </button>
                         
                         {/*TODO: implement resetValues*/}

@@ -25,6 +25,19 @@ app.get('/clientregistration', (req, res) => {
     });
 });
 
+app.get('/quotehistory', (req, res) => {
+
+    const user = req.body.username;
+    
+    const sql = `SELECT * FROM FuelQuote 
+                 WHERE quote_form_username=\'${user}\'`;
+
+    db.query(sql, (err, result) => {
+        if (err) console.log(err.sqlMessage);
+        console.log(result);
+    });
+});
+
 // ------------------ POST ROUTES ------------------- //
 
 app.post('/login', (req, res) => {
@@ -122,5 +135,37 @@ app.post('/clientregistration-update', (req, res) => {
         console.log(result);
     });
 });
+
+app.post('/quoteform', (req, res) => {
+
+    const user = req.body.username;
+    const gallons = req.body.gallons;
+    const address1 = req.body.address;
+    const date = req.body.date;
+    const price = req.body.price;
+    const total = req.body.total;
+
+    const sql = `INSERT INTO FuelQuote ( 
+                    quote_form_username,
+                    gallons_requested,
+                    delivery_address,
+                    delivery_date,
+                    suggested_ppg,
+                    amount_due
+                ) VALUES (
+                    \'${user}\',
+                    \'${gallons}\',
+                    \'${address1}\',
+                    \'${date}\',
+                    \'${price}\',
+                    \'${total}\'
+                )`;
+
+    db.query(sql, (err, result) => {
+        if (err) console.log(err.sqlMessage);
+        console.log(result);
+    });
+});
+
 
 app.listen(8080, () => console.log('API running on port 8080'));

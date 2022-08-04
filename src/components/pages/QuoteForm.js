@@ -1,7 +1,7 @@
 import React, {useState}from 'react';
 import '../../App.css';
 import Section2 from '../Section2';
-import QuoteUserForm from '../QuoteUserForm';
+import UserQuoteForm from '../UserQuoteForm';
 import FormSuccess from '../FormSuccess';
 import '../QuoteForm.css';
 
@@ -14,7 +14,7 @@ function QuoteForm(){
     return (
         <>
            <div>
-            {!isSubmitted ? <QuoteUserForm submitForm=
+            {!isSubmitted ? <UserQuoteForm submitForm=
               {submitForm}/> : <FormSuccess/>}
         </div>
         </>

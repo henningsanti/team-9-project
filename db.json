@@ -1,4 +1,24 @@
 {
+  "list": [
+    {
+      "id": 1,
+      "userid": 1,
+      "gallons": 10,
+      "address": "77 Street",
+      "date": "Jan 2022",
+      "price": "$20",
+      "total": "$350"
+    },
+    {
+      "id": 2,
+      "userid": 2,
+      "gallons": 10,
+      "address": "774 Street",
+      "date": "Jan 2023",
+      "price": "$25",
+      "total": "$355"
+    }
+  ],
   "posts": [
     {
       "id": 1,

@@ -1,3 +1,4 @@
+
 export default function validateInfo(values){
     let errors = {};
 
@@ -7,6 +8,7 @@ export default function validateInfo(values){
     }
     else if(!/[0-9]/.test(values.gallons)){
         errors.gallons = 'Gallons number is invalid';
+        
     }
 
     if (!values.date){

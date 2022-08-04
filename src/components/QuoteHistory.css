@@ -5,7 +5,7 @@
     padding: 1rem;
     margin: 100px auto;
     width: 1200px;
-    box-shadow: 0 5px 8px 0 rgba(0, 0, 0, 0.2), 0 7px 20px 0 rgba(0, 0, 0, 0.2);
+    box-shadow: 0 5px 8px 0 rgba(0, 0, 0, 0.2), 0 7px 20px 0 rgba(9, 22, 6, 0.2);
     position: relative;
     border-radius: 10px;
   }
@@ -21,6 +21,8 @@
     text-align: center;
     padding: 8px;
     font-size: 18px;
+    color: #ffffff;
+    
   }
   
   th {
@@ -29,6 +31,7 @@
   
   td {
     background-color: rgb(175, 168, 29);
+    
   }
   
   form {

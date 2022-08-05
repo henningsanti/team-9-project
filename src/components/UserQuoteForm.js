@@ -6,7 +6,6 @@ import axios from '../api/axios';
 
 
 export default function UserQuoteForm(){
-
     const [gallons, setGallons] = useState('');
     const [address, setAddress] = useState('');
     const [date, setDate] = useState('');
@@ -14,9 +13,7 @@ export default function UserQuoteForm(){
     const [total, setTotal] = useState();
 
     //const [firstLogin, setFirstLogin] = useState(true);
-
     const [readOnly, setReadOnly] = useState(true);
-
     const fullNameRef = useRef();
 
     useEffect(() => {
@@ -30,11 +27,11 @@ export default function UserQuoteForm(){
 
             if (response) {
                 console.log("Got A Response!")
-                setGallons(response.data.gallons);
-                setAddress(response.data.address);
-                setDate(response.data.date);
-                setPrice(response.data.price);
-                setTotal(response.data.total);
+                setGallons(response.data.gallons_requested);
+                setAddress(response.data.delivery_address);
+                setDate(response.data.delivery_date);
+                setPrice(response.data.suggested_ppg);
+                setTotal(response.data.amount_due);
                 //setFirstLogin(false);
             }
         }

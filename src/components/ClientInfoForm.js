@@ -12,7 +12,7 @@ export default function ClientInfoForm(){
     const [state, setState] = useState();
     const [zip, setZip] = useState();
 
-    const [firstLogin, setFirstLogin] = useState(true);
+    //const [firstLogin, setFirstLogin] = useState(true);
 
     const [readOnly, setReadOnly] = useState(true);
 
@@ -20,22 +20,26 @@ export default function ClientInfoForm(){
 
     useEffect(() => {
         async function fetchData() {
-            const response = await axios.get("/clientregistration", {
+            const response = await axios.post("/clientregistration", {
                 headers: { 'Content-Type': 'application/json' },
                 username: JSON.parse(sessionStorage.getItem('token')).token
             });
 
-            console.log(response);
-
             if (response) {
                 console.log("Got A Response!")
-                setFullName(response.data.full_name);
-                setAddress1(response.data.address1);
-                setAddress2(response.data.address2);
-                setCity(response.data.city);
-                setState(response.data.state);
-                setZip(response.data.zip);
-                setFirstLogin(false);
+                setFullName(response.data[0].full_name);
+                setAddress1(response.data[0].address1);
+                setAddress2(response.data[0].address2);
+                setCity(response.data[0].city);
+
+                states.forEach(state => {
+                    if (state.value == response.data[0].state)
+                    setState(state);
+                    
+                });
+                
+                setZip(response.data[0].zip);
+                //setFirstLogin(false);
             }
         }
         fetchData();
@@ -46,17 +50,19 @@ export default function ClientInfoForm(){
 
         setReadOnly(true);
 
-        const response = await axios.post("/clientregistration" + 
-            (firstLogin ? "-submit" : "-update" ), {
+        /*(firstLogin ? "-submit" : "-update" */
+
+        console.log("State to submit: " + state.value);
+
+        const response = await axios.post("/clientregistration-update", {
             headers: { 'Content-Type': 'application/json' },
             username: JSON.parse(sessionStorage.getItem('token')).token,
             fullName: fullName,
             address1: address1,
             address2: address2,
             city: city,
-            state: state,
+            state: state.value,
             zip: zip,
-            firstLogin: firstLogin
         }
     )};
 
@@ -240,7 +246,7 @@ export default function ClientInfoForm(){
                         <button 
                             type="submit" 
                             className="col-8 btn btn-success my-2">
-                            {firstLogin ? "Submit" : "Update"}
+                            Update
                         </button>
                         
                         {/*TODO: implement resetValues*/}

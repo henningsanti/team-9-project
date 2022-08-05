@@ -12,19 +12,6 @@ app.use(express.json())
 
 // ------------------ GET ROUTES  ------------------- //
 
-app.get('/clientregistration', (req, res) => {
-
-    const user = req.body.username;
-
-    const sql = `SELECT * FROM ClientInformation 
-                 WHERE client_username=\'${user}\'`;
-
-    db.query(sql, (err, result) => {
-        if (err) console.log(err.sqlMessage);
-        console.log(result);
-    });
-});
-
 // ------------------ POST ROUTES ------------------- //
 
 app.post('/login', (req, res) => {
@@ -35,12 +22,19 @@ app.post('/login', (req, res) => {
     const sql = `SELECT * FROM UserCredentials WHERE username=\'${user}\' && pass=\'${pass}\'`;
 
     db.query(sql, (err, result) => {
-        if (err) console.log(err.sqlMessage);
+        if (err) {
+            console.log(err.sqlMessage);
+            return;
+        }
+        console.log("Login Result: ");
         console.log(result);
+        console.log("END LOGIN RESULT -----");
 
-        res.send({
+        if (Object.keys(result).length != 0) {
+            res.send({
             token: user
-        });
+            });
+        }
     });
 });
 
@@ -49,19 +43,49 @@ app.post('/signup', (req, res) => {
     const user = req.body.credentials.username;
     const pass = req.body.credentials.password;
 
+
     const sql = `INSERT INTO UserCredentials (username, pass)
-                 VALUES (\'${user}\', \'${pass}\'`;
+                 VALUES (\'${user}\', \'${pass}\')`;
+
+    db.query(sql, (err, result) => {
+        if (err) {
+            console.log(err.sqlMessage);
+            return;
+        }
+
+        console.log("Signup Result: ");
+        console.log(result);
+        console.log("END LOGIN RESULT -----");
+
+        if (Object.keys(result).length != 0) {
+            res.send({
+            token: user
+            });
+        }
+    });
+});
+
+app.post('/clientregistration', (req, res) => {
+
+    console.log("CLIENT REGISTRATION ATTEMPT");
+    console.log(req.body);
+
+    const user = req.body.username;
+
+    const sql = `SELECT * FROM ClientInformation 
+                 WHERE client_username=\'${user}\'`;
+
+    console.log("User: " + user);
 
     db.query(sql, (err, result) => {
         if (err) console.log(err.sqlMessage);
         console.log(result);
 
-        res.send({
-            token: 'test.token.123'
-        });
+        res.send(result)
     });
 });
 
+/*
 app.post('/clientregistration-submit', (req, res) => {
 
     const user = req.body.username;
@@ -95,6 +119,7 @@ app.post('/clientregistration-submit', (req, res) => {
         console.log(result);
     });
 });
+*/
 
 app.post('/clientregistration-update', (req, res) => {
 
@@ -119,7 +144,6 @@ app.post('/clientregistration-update', (req, res) => {
 
     db.query(sql, (err, result) => {
         if (err) console.log(err.sqlMessage);
-        console.log(result);
     });
 });
 

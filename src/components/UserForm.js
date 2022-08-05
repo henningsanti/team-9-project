@@ -8,10 +8,10 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 
 
 import axios from '../api/axios';
-const LOGIN_URL = '/login';
 
-const loginUser = async (credentials) => {
-    const response = await axios.post(LOGIN_URL, {
+const loginUser = async (credentials, signUp) => {
+    const url = signUp ? "/signup" : "/login";
+    const response = await axios.post(url, {
             headers: { 'Content-Type': 'application/json' },
             credentials: credentials
             //withCredentials: true
@@ -51,7 +51,7 @@ const UserForm = ({signUp, setToken}) => {
             const token = await loginUser({
                 username: user,
                 password: pwd
-            });
+            }, signUp);
 
             console.log(token);
             setToken(token);

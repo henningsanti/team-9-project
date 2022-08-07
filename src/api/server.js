@@ -85,42 +85,6 @@ app.post('/clientregistration', (req, res) => {
     });
 });
 
-/*
-app.post('/clientregistration-submit', (req, res) => {
-
-    const user = req.body.username;
-    const full_name = req.body.fullName;
-    const address1 = req.body.address1;
-    const address2 = req.body.address2;
-    const city = req.body.city;
-    const state = req.body.state;
-    const zip = req.body.zip;
-
-    const sql = `INSERT INTO ClientInformation ( 
-                    client_username,
-                    full_name,
-                    address1,
-                    address2,
-                    city,
-                    state,
-                    zip
-                ) VALUES (
-                    \'${user}\',
-                    \'${full_name}\',
-                    \'${address1}\',
-                    \'${address2}\',
-                    \'${city}\',
-                    \'${state}\',
-                    \'${zip}'\
-                )`;
-
-    db.query(sql, (err, result) => {
-        if (err) console.log(err.sqlMessage);
-        console.log(result);
-    });
-});
-*/
-
 app.post('/clientregistration-update', (req, res) => {
 
     const user = req.body.username;
@@ -144,6 +108,103 @@ app.post('/clientregistration-update', (req, res) => {
 
     db.query(sql, (err, result) => {
         if (err) console.log(err.sqlMessage);
+    });
+});
+
+app.post('/getquote-historyfactor', (req, res) => {
+
+    console.log("QUOTE HISTORY FACTOR ATTEMPT");
+    console.log(req.body);
+
+    const user = req.body.username;
+
+    const sql = `SELECT * FROM FuelQuote 
+                 WHERE quote_form_username=\'${user}\' && order_submitted=${1}`;
+
+    db.query(sql, (err, result) => {
+        if (err) console.log(err.sqlMessage);
+        console.log(result);
+
+        res.send({
+            hasHistory: Object.keys(result).length != 0
+        });
+    });
+});
+
+app.post('/getquote-savequote', (req, res) => {
+
+    console.log("SAVE FUEL QUOTE ATTEMPT");
+    console.log(req.body);
+
+    const user = req.body.username;
+    const gallons = req.body.gallons;
+    const address = req.body.address;
+    const date = req.body.date;
+    const suggPrice = req.body.suggPrice;
+    const total = req.body.total;
+
+    const sql = `INSERT INTO FuelQuote (
+                    quote_form_username, 
+                    gallons_requested,
+                    delivery_address,
+                    delivery_date,
+                    suggested_ppg,
+                    amount_due,
+                    order_submitted
+                ) VALUES (
+                    \'${user}\',
+                    ${gallons},
+                    \'${address}\',
+                    \'${date}\',
+                    ${suggPrice},
+                    ${total},
+                    0)`;
+
+    db.query(sql, (err, result) => {
+        if (err) { 
+            console.log(err.sqlMessage);
+        } else {
+            res.send({
+                quote_id: result.insertId
+            });
+        }
+    });
+});
+
+app.post('/quoteform-submit', (req, res) => {
+
+    console.log("FUEL ORDER ATTEMPT");
+    console.log(req.body);
+
+    const user = req.body.username;
+    const quoteId = req.body.quoteId;
+
+    const sql = `UPDATE FuelQuote 
+                 SET order_submitted=1
+                 WHERE quote_form_username=\'${user}\' && quote_id=${quoteId}`;
+
+    db.query(sql, (err, result) => {
+        if (err) console.log(err.sqlMessage);
+        console.log(result);
+    });
+});
+
+app.post('/quotehistory', (req, res) => {
+
+    console.log("QUOTE HISTORY FETCH ATTEMPT");
+    console.log(req.body);
+
+    const user = req.body.username;
+
+    const sql = `SELECT * FROM FuelQuote 
+                 WHERE quote_form_username=\'${user}\'
+                 ORDER BY order_submitted DESC`;
+
+    db.query(sql, (err, result) => {
+        if (err) console.log(err.sqlMessage);
+        console.log(result);
+
+        res.send(result);
     });
 });
 

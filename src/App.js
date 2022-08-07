@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-d
 import './App.css';
 import Home from './components/pages/Home';
 import QuoteForm from './components/pages/QuoteForm';
+import QuoteForm2 from './components/pages/QuoteForm2';
 import QuoteHistory from './components/pages/QuoteHistory';
 import ClientRegistration from './components/pages/ClientRegistration';
 import Login from './components/pages/Login';
@@ -30,7 +31,7 @@ function App()
               </Route>
 
               {/*Private Routes*/}
-              {!token ? <Redirect to="/login" /> : <Route path='/quoteform' component = {QuoteForm}/>}
+              {!token ? <Redirect to="/login" /> : <Route path='/quoteform' component = {QuoteForm2}/>}
               {!token ? <Redirect to="/login" /> : <Route path='/quotehistory' component = {QuoteHistory}/>}
               {!token ? <Redirect to="/login" /> : <Route path='/clientregistration' component = {ClientRegistration}/>}
             </Switch>

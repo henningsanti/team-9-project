@@ -29,7 +29,7 @@ export default function ClientInfoForm(){
                 console.log("Got A Response!")
                 setFullName(response.data[0].full_name);
                 setAddress1(response.data[0].address1);
-                setAddress2(response.data[0].address2);
+                setAddress2((response.data[0].address2 == null ? '' : response.data[0].address2));
                 setCity(response.data[0].city);
 
                 states.forEach(state => {
@@ -37,7 +37,7 @@ export default function ClientInfoForm(){
                     setState(state);
                     
                 });
-                
+
                 setZip(response.data[0].zip);
                 //setFirstLogin(false);
             }
@@ -50,10 +50,8 @@ export default function ClientInfoForm(){
 
         setReadOnly(true);
 
-        /*(firstLogin ? "-submit" : "-update" */
-
         console.log("State to submit: " + state.value);
-
+    
         const response = await axios.post("/clientregistration-update", {
             headers: { 'Content-Type': 'application/json' },
             username: JSON.parse(sessionStorage.getItem('token')).token,
@@ -249,7 +247,6 @@ export default function ClientInfoForm(){
                             Update
                         </button>
                         
-                        {/*TODO: implement resetValues*/}
                         <div  
                             className="col-4 btn btn-danger mx-2 my-2"
                             onClick={() => {

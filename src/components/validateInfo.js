@@ -1,4 +1,4 @@
-export default function validateInfo(values){
+/*export default function validateInfo(values){
     let errors = {};
 
 
@@ -15,3 +15,26 @@ export default function validateInfo(values){
 
     return errors;
 }
+*/
+
+const validateUsername = (entry) => {
+    //make sure no illegal characters (only numbers, letters)
+}
+
+const validatePassword = (entry) => {
+    //not sure what to validate here, think security is solved with password encryption
+}
+
+const validateFullName = (entry) => {
+    // only letters and spaces
+}
+
+const validateAddress = (entry) => {
+    // make sure follows address format -- 123 Commons St
+}
+
+const validateCity = (entry) => {
+    // only letters
+}
+
+//etc

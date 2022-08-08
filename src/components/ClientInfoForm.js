@@ -1,5 +1,5 @@
 import {useState, useRef, useEffect} from 'react';
-import '../App.css';
+//import '../App.css';
 import Select from 'react-select'
 import axios from '../api/axios';
 
@@ -11,6 +11,8 @@ export default function ClientInfoForm(){
     const [city, setCity] = useState();
     const [state, setState] = useState();
     const [zip, setZip] = useState();
+
+    const [errMsg, setErrMsg] = useState();
 
     //const [firstLogin, setFirstLogin] = useState(true);
 
@@ -61,8 +63,13 @@ export default function ClientInfoForm(){
             city: city,
             state: state.value,
             zip: zip,
+        });
+    
+        if (response.error) {
+            console.log(response.error);
+            setErrMsg(response.error);
         }
-    )};
+    };
 
     const resetValues = () => {};
 
@@ -257,8 +264,6 @@ export default function ClientInfoForm(){
                         </div>
                     </div>
                     }
-
-
             </form>
         </div>
     )

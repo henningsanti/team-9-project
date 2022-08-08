@@ -53,9 +53,13 @@ const UserForm = ({signUp, setToken}) => {
                 password: pwd
             }, signUp);
 
-            console.log(token);
-            setToken(token);
-            setSuccess(true);
+            if (token.error) {
+                setErrMsg(token.error);
+            } else {
+                console.log(token);
+                setToken(token);
+                setSuccess(true);
+            }
 
         } catch (err) {
             //setSuccess(false);
@@ -85,14 +89,15 @@ const UserForm = ({signUp, setToken}) => {
 
                     <form onSubmit={handleSubmit} className="d-flex flex-column">
                         
-                        <p 
+                        <button 
                             ref={errRef} 
                             align="center"
                             className={"p-2 my-2 justify-content-center text-light " +
                                        "rounded "  +
                                         (errMsg ? "errmsg bg-danger" : "offscreen d-none")} 
-                            aria-live="assertive">{errMsg}
-                        </p>
+                            aria-live="assertive"
+                            disabled>{errMsg}
+                        </button>
 
                         <div className="form-group my-2">
                             <label>

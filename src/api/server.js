@@ -3,6 +3,7 @@ const express = require('express');
 const cors = require('cors');
 const bodyParser = require('body-parser');
 const db = require('./db');
+const val = require("../components/validateInfo");
 
 const app = express();
 
@@ -19,6 +20,14 @@ app.post('/login', (req, res) => {
     const user = req.body.credentials.username;
     const pass = req.body.credentials.password;
 
+    const valid = val.validateUsername(user) && val.validatePassword(pass);
+    if (!valid) {
+        res.send({
+            error: "Illegal Credentials"
+        });
+        return;
+    }
+
     const sql = `SELECT * FROM UserCredentials WHERE username=\'${user}\' && pass=\'${pass}\'`;
 
     db.query(sql, (err, result) => {
@@ -26,13 +35,15 @@ app.post('/login', (req, res) => {
             console.log(err.sqlMessage);
             return;
         }
-        console.log("Login Result: ");
-        console.log(result);
-        console.log("END LOGIN RESULT -----");
 
         if (Object.keys(result).length != 0) {
             res.send({
             token: user
+            });
+
+        } else {
+            res.send({
+                error: "Invalid Credentials"
             });
         }
     });
@@ -43,6 +54,14 @@ app.post('/signup', (req, res) => {
     const user = req.body.credentials.username;
     const pass = req.body.credentials.password;
 
+    const valid = val.validateUsername(user) && val.validatePassword(pass);
+
+    if (!valid) {
+        res.send({
+            error: "Illegal Credentials"
+        });
+        return;
+    }
 
     const sql = `INSERT INTO UserCredentials (username, pass)
                  VALUES (\'${user}\', \'${pass}\')`;
@@ -50,16 +69,20 @@ app.post('/signup', (req, res) => {
     db.query(sql, (err, result) => {
         if (err) {
             console.log(err.sqlMessage);
+            res.send({
+                error: "Username Taken"
+            });
             return;
         }
-
-        console.log("Signup Result: ");
-        console.log(result);
-        console.log("END LOGIN RESULT -----");
 
         if (Object.keys(result).length != 0) {
             res.send({
             token: user
+            });
+            
+        } else {
+            res.send({
+                error: "Invalid Credentials"
             });
         }
     });
@@ -94,6 +117,22 @@ app.post('/clientregistration-update', (req, res) => {
     const city = req.body.city;
     const state = req.body.state;
     const zip = req.body.zip;
+
+    const valid = (
+        val.validateFullName(full_name) &&
+        val.validateStreetAddress(address1) &&
+        val.validateCity(city) &&
+        val.validateState(state) && 
+        val.validateZip(zip)
+    );
+
+    if (!valid) {
+        console.log("error");
+        res.send({
+            error: "Invalid Input(s)"
+        });
+        return;
+    }
 
     const sql = `UPDATE ClientInformation 
                  SET 
@@ -142,6 +181,19 @@ app.post('/getquote-savequote', (req, res) => {
     const date = req.body.date;
     const suggPrice = req.body.suggPrice;
     const total = req.body.total;
+
+    const valid = (
+        val.validateGallons(gallons) &&
+        val.validateLongAddress(address)
+    );
+
+    if (!valid) {
+        console.log("error");
+        res.send({
+            error: "Invalid Input(s)"
+        });
+        return;
+    }
 
     const sql = `INSERT INTO FuelQuote (
                     quote_form_username, 
